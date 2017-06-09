@@ -1,0 +1,16 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - echo "Skip npm install"
+  pre:
+    - docker login -u="${DOCKER_USER_ID}" -p="${DOCKER_USER_PW}" -e="${DOCKER_EMAIL}"
+compile:
+  override:  
+    - docker build -t $DOCKER_USER_ID/serv_mon:$APP_VERSION.$CIRCLE_BUILD_NUM  --build-arg APP_VERSION=$APP_VERSION.$CIRCLE_BUILD_NUM --rm=false .
+deployment:
+  prod:
+    branch: master
+    commands:
+      - docker push $DOCKER_USER_ID/serv_mon:$APP_VERSION.$CIRCLE_BUILD_NUM
