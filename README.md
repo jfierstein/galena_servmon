@@ -1,10 +1,7 @@
-# TestCI #
+# Galena Server Monitor #
 
-![CircleCI](https://circleci.com/gh/jfierstein/testci/tree/dev.svg?style=svg&circle-token=3ceb41a3fc3af001c6eb5a4b2fffdb6b52cad8aa)
+Print process usage and core temps through a convenient web frontend display.
 
-Testing a CI build that automatically deploys to AWS ECS
+# Installation #
 
-# CI Deployments #
-
-* Dev: [dev.pacsoftconsulting.com](https://dev.pacsoftconsulting.com/)
-* Prod: [pacsoftconsulting.com](https://pacsoftconsulting.com/)
+Build/Tag/Push to a docker repo of your choice. Pull the image onto the server you wish to monitor and execute 'docker run' to run the container.
