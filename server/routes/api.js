@@ -2,16 +2,10 @@
 
 let router = require('express').Router();
 
-const dockerApi = require('services/docker/api');
-
 const buildInfo = require('buildInfo');
 const config = require('config/env');
 
-const passport = require('passport');
-
-const authReq = require('lib/express/authReq');
-
-const User = require('models/user');
+const sensors = require('services/sensorsApi');
 
 router.get('/build-info', function (req, res) {
   let info = Object.assign({}, buildInfo);
@@ -23,26 +17,14 @@ router.get('/ping', function (req, res) {
   res.sendStatus(200);
 });
 
-/*
-/ Authorization / OAuth
-*/
-
-router.get('/auth/badlogin', function (req, res) {
-  res.sendStatus(401);
+router.get('/sensors', function (req, res) {
+  let action = sensors.getSensorData();
+  res.promise(action);
 });
 
-router.get('/auth/status', function (req, res) {
-  if(req.user) res.promise(User.findOne({ googleId: req.user.googleId }));  
-  else res.sendStatus(401);
-});
-
-router.get('/auth/google', passport.authenticate('google', { scope: 'openid profile' }));
-
-router.get('/auth/google/callback', passport.authenticate('google', { successRedirect: '/', failureRedirect: '/api/auth/badlogin' }));
-
-router.get('/auth/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
+router.get('/usage', function (req, res) {
+  let action = sensors.getProcessUsage();
+  res.promise(action);
 });
 
 module.exports = router;

@@ -29,10 +29,11 @@ app.use(express.static(client.path));
 app.use('/api', require('routes/api'));
 app.use(require('routes/static'));
 
-const initialActions = [sensors.init];
+const initialActions = [];
 
 Promise.all(initialActions).then(results => {
-   
+    app.listen(port);
+    logger.info('App running on port ' + port);
 }).catch(err => {
     logger.warn( 'Failed to start app: ' + err);
   });
